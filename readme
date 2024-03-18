@@ -1,0 +1,10 @@
+# PrintTester
+
+## Descrição
+Este é um projeto chamado PrintTester criado para realizar testes de impressão de forma automatizada.
+
+## Como Usar
+1. Certifique-se de ter Ruby instalado em seu sistema. Você pode baixá-lo em [ruby-lang.org](https://www.ruby-lang.org/).
+
+2. Execute o arquivo main.rb digitando o seguinte comando no terminal aberto na pasta do projeto:
+   > ruby main.rb
