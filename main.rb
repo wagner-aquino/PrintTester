@@ -5,7 +5,14 @@ require 'json'
 
 def post_boleto(ambiente, id, cedente, sh, token_sh, tipo_impressao)
 
-  ambiente_url = ambiente == 1 ? "" : "homologacao."
+  ambiente_url = if ambiente == 1
+                  ""
+                elsif ambiente == 2
+                  "homologacao."
+                else
+                  puts "Ambiente inválido!"
+                  exit
+                end
 
   url_post = URI("https://#{ambiente_url}plugboleto.com.br/api/v1/boletos/impressao/lote")
 
@@ -26,7 +33,14 @@ end
 
 def get_boleto(ambiente, protocolo, cedente, sh, token_sh, tipo_impressao)
 
-  ambiente_url = ambiente == 1 ? "" : "homologacao."
+  ambiente_url = if ambiente == 1
+                  ""
+                elsif ambiente == 2
+                  "homologacao."
+                else
+                  puts "Ambiente inválido!"
+                  exit
+                end
 
   url_get = URI("https://#{ambiente_url}plugboleto.com.br/api/v1/boletos/impressao/lote/#{protocolo}")
 
