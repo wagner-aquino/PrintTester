@@ -8,3 +8,6 @@ Este é um projeto chamado PrintTester criado para realizar testes de impressão
 
 2. Execute o arquivo main.rb digitando o seguinte comando no terminal aberto na pasta do projeto:
    > ruby main.rb
+
+3. Informe sempre o idintegracao dos boletos entre aspas, exemplo:
+   > "C5O069O6F", "TK3GPIXO6", "1IPEGSKQJ"
