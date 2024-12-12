@@ -3,8 +3,12 @@ require 'net/http'
 require 'openssl'
 require 'json'
 
-def post_boleto(id, cedente, sh, token_sh, tipo_impressao)
-  url_post = URI("https://plugboleto.com.br/api/v1/boletos/impressao/lote")
+def post_boleto(ambiente, id, cedente, sh, token_sh, tipo_impressao)
+
+  ambiente_url = ambiente == 1 ? "" : "homologacao."
+
+  url_post = URI("https://#{ambiente_url}plugboleto.com.br/api/v1/boletos/impressao/lote")
+
   http = Net::HTTP.new(url_post.host, url_post.port)
   http.use_ssl = true
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -20,8 +24,12 @@ def post_boleto(id, cedente, sh, token_sh, tipo_impressao)
   JSON.parse(response.read_body)
 end
 
-def get_boleto(protocolo, cedente, sh, token_sh, tipo_impressao)
-  url_get = URI("https://plugboleto.com.br/api/v1/boletos/impressao/lote/#{protocolo}")
+def get_boleto(ambiente, protocolo, cedente, sh, token_sh, tipo_impressao)
+
+  ambiente_url = ambiente == 1 ? "" : "homologacao."
+
+  url_get = URI("https://#{ambiente_url}plugboleto.com.br/api/v1/boletos/impressao/lote/#{protocolo}")
+
   http = Net::HTTP.new(url_get.host, url_get.port)
   http.use_ssl = true
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -59,7 +67,11 @@ end
 def main
   tipos_impressao = [0, 1, 2, 3, 4, 5, 6, 99]
 
-  puts "Insira o idintegracao do boleto:"
+  puts "Insira o número correspondente ao ambiente que utilizará:\n• 1 - Produção\n• 2 - Homologação"
+  print "> "
+  ambiente = gets.chomp.to_i
+
+  puts "\nInsira o idintegracao do boleto:"
   print "> "
   id = gets.chomp
 
@@ -78,11 +90,11 @@ def main
   puts "-------------------------->>>LOGS<<<--------------------------\n\n"
 
   for tipo in tipos_impressao
-    response = post_boleto(id, cedente, sh, token_sh, tipo)
+    response = post_boleto(ambiente, id, cedente, sh, token_sh, tipo)
     puts response
 
     protocolo = response["_dados"]["protocolo"]
-    response_status = get_boleto(protocolo, cedente, sh, token_sh, tipo)
+    response_status = get_boleto(ambiente, protocolo, cedente, sh, token_sh, tipo)
     puts response_status
   end
 end
